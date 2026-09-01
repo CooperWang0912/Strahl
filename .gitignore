@@ -1,3 +1,6 @@
 .idea
 Resources
 *.log
+.cache
+CharacterModels
+GenieData
