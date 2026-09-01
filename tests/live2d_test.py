@@ -31,9 +31,9 @@ class Win(QOpenGLWidget):
         self.model = live2d.LAppModel()
 
         if live2d.LIVE2D_VERSION == 3:
-            self.model.LoadModelJson(os.path.join("Resources/v3/Haru/Haru.model3.json"))
+            self.model.LoadModelJson(os.path.join("../Resources/v3/Haru/Haru.model3.json"))
         else:
-            self.model.LoadModelJson(os.path.join("Resources/v2/shizuku/shizuku.model.json"))
+            self.model.LoadModelJson(os.path.join("../Resources/v2/shizuku/shizuku.model.json"))
 
         self.startTimer(int(1000 / 120))
 
