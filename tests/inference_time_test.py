@@ -30,12 +30,11 @@ interaction = client.interactions.create(
             "data": base64.b64encode(im_data).decode('utf-8'),
             "mime_type": "image/png"
         },
-    ]
+    ],
+    stream=True
 )
 
-print(interaction.output_text)
-
-end_time = time.perf_counter()
-
-duration = end_time - start_time
-print("Inference time: " + str(duration))
+for event in interaction:
+    if event.event_type == "step.delta":
+        if event.delta.type == "text":
+            print(event.delta.text, end="", flush=True)
