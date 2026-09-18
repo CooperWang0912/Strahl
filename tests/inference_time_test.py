@@ -23,6 +23,10 @@ import live2d.v3 as live2d
 # import live2d.v2 as live2d
 os.environ["QSG_RHI_BACKEND"] = "opengl"
 
+from Settings.settings import SYSTEM_PROMPT
+
+CHAT_HISTORY = ["Chat History"]
+
 
 class Win(QOpenGLWidget):
 
@@ -61,6 +65,8 @@ class Win(QOpenGLWidget):
         self.model.Drag(x, y)
         speech = record_once()
 
+        CHAT_HISTORY.append("User: " + speech)
+
         screenshot = pyautogui.screenshot()
 
         screenshot = screenshot.resize((768, 768))
@@ -76,7 +82,7 @@ class Win(QOpenGLWidget):
         interaction = client.interactions.create(
             model="gemini-3.8-flash",
             input=[
-                {"type": "text", "text": "Keeping the response concise: " + speech},
+                {"type": "text", "text": SYSTEM_PROMPT + str(CHAT_HISTORY) + speech},
                 {
                     "type": "image",
                     "data": base64.b64encode(im_data).decode('utf-8'),
@@ -87,11 +93,13 @@ class Win(QOpenGLWidget):
 
         output = interaction.output_text
 
+        CHAT_HISTORY.append("Strahl: " + str(output))
+
         print(output)
 
         genie.tts(
             character_name='thirtyseven',
-            text=output,
+            text=str(output),
             play=True,
         )
 
